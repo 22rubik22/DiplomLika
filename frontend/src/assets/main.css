@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@import "@fortawesome/fontawesome-free/css/all.css";  /* Добавьте эту строку */
+
+/* Подключаем шрифты */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Raleway:wght@300;400;500&display=swap');
+
+/* Подключаем шрифты */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Raleway:wght@300;400;500&display=swap');
+
+@layer base {
+  :root {
+    --color-cream: #f1e8e0;
+    --color-parchment: #e2d5c8;
+    --color-champagne: #f3d8ce;
+    --color-blood: #5e1104;
+    --color-sage: #7f8330;
+    --color-terracotta: #8b4513;
+    --color-slate: #6c6456;
+    --color-gold: #b59b6d;
+    --color-ivy-dark: #5a5c29;
+    --color-ivy-light: #a0a86d;
+  }
+
+  body {
+    @apply bg-[#f1e8e0] text-[#3c352d] font-['Raleway'] font-light antialiased;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(127, 131, 48, 0.03) 0%, transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(94, 17, 4, 0.03) 0%, transparent 25%);
+    overflow-x: hidden;
+  }
+}
+
+/* Декоративный плющ по краям */
+.ivy-left,
+.ivy-right {
+  @apply fixed top-0 h-screen w-[120px] pointer-events-none opacity-30 z-[-1];
+  background-repeat: repeat-y;
+  background-size: 120px auto;
+}
+
+.ivy-left {
+  left: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 1000'%3E%3Cpath d='M20,10 Q40,0 60,30 Q80,60 55,100 Q30,140 20,160 Q10,180 25,220 Q40,260 30,300 Q20,340 40,380 Q60,420 45,460 Q30,500 35,540 Q40,580 25,620 Q10,660 30,700 Q50,740 40,780 Q30,820 50,860 Q70,900 60,940 Q50,980 65,1000' fill='none' stroke='%237f8330' stroke-width='2' stroke-opacity='0.15'/%3E%3C/svg%3E");
+}
+
+.ivy-right {
+  right: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 1000'%3E%3Cpath d='M80,10 Q60,0 40,30 Q20,60 45,100 Q70,140 80,160 Q90,180 75,220 Q60,260 70,300 Q80,340 60,380 Q40,420 55,460 Q70,500 65,540 Q60,580 75,620 Q90,660 70,700 Q50,740 60,780 Q70,820 50,860 Q30,900 40,940 Q50,980 35,1000' fill='none' stroke='%237f8330' stroke-width='2' stroke-opacity='0.15'/%3E%3C/svg%3E");
+}
+
+/* Адаптивность для плюща */
+@media (max-width: 1024px) {
+  .ivy-left, .ivy-right {
+    @apply w-[60px];
+  }
+}
+
+@media (max-width: 768px) {
+  .ivy-left, .ivy-right {
+    @apply w-[40px] opacity-10;
+  }
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter-active {
+  animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+/* Общие стили для форм */
+.form-input {
+  @apply w-full px-5 py-3 border border-[#7f8330]/30 rounded-lg bg-white/80 
+         focus:outline-none focus:border-[#7f8330] focus:ring-3 focus:ring-[#7f8330]/10 
+         transition-all font-['Raleway'] text-base;
+}
+
+/* Стили для кнопок */
+.btn {
+  @apply inline-flex items-center gap-3 px-9 py-4 bg-transparent text-[#5e1104] 
+         border border-[#7f8330] rounded-full font-medium text-base 
+         transition-all duration-700 cursor-pointer hover:bg-[#7f8330]/8 
+         hover:pr-11 hover:-translate-y-1 hover:shadow-[0_5px_25px_rgba(0,0,0,0.05)];
+}
+
+.btn-primary {
+  @apply inline-flex items-center gap-3 px-9 py-4 bg-[#7f8330] text-white 
+         border border-[#7f8330] rounded-full font-medium text-base 
+         transition-all duration-700 cursor-pointer hover:bg-[#5a5c29] 
+         hover:border-[#5a5c29] hover:-translate-y-1;
+}
+
+/* Заголовки страниц */
+.page-title {
+  @apply font-['Playfair_Display'] text-4xl md:text-5xl text-[#5e1104] mb-10 
+         pb-6 relative after:content-[''] after:absolute after:bottom-0 after:left-0 
+         after:w-24 after:h-1 after:bg-gradient-to-r after:from-[#7f8330] after:to-[#b59b6d];
+}
+
+/* Сетка для книг */
+.books-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8;
+}
