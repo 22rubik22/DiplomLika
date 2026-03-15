@@ -1,13 +1,9 @@
+/* ИМПОРТЫ ДОЛЖНЫ БЫТЬ В САМОМ НАЧАЛЕ */
 @import "tailwindcss";
-
-@import "@fortawesome/fontawesome-free/css/all.css";  /* Добавьте эту строку */
-
-/* Подключаем шрифты */
+@import "@fortawesome/fontawesome-free/css/all.css";
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Raleway:wght@300;400;500&display=swap');
 
-/* Подключаем шрифты */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Raleway:wght@300;400;500&display=swap');
-
+/* ВСЕ ОСТАЛЬНЫЕ СТИЛИ ПОСЛЕ ИМПОРТОВ */
 @layer base {
   :root {
     --color-cream: #f1e8e0;

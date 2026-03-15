@@ -7,20 +7,20 @@
           <div 
             v-for="book in favorites" 
             :key="book.id"
-            class="book-card"
+            class="bg-white rounded-xl overflow-hidden shadow-[0_5px_25px_rgba(0,0,0,0.05)] transition-all duration-700 border border-[#f3d8ce]/50 hover:shadow-[0_10px_35px_rgba(0,0,0,0.08)] hover:-translate-y-2.5"
           >
-            <div class="book-image">
-              <img :src="book.image" :alt="book.title">
+            <div class="h-64 bg-gradient-to-br from-[#f3d8ce] to-[#f8e6df] flex items-center justify-center overflow-hidden">
+              <img :src="book.image" :alt="book.title" class="w-2/3 h-auto object-contain filter drop-shadow-[0_8px_20px_rgba(0,0,0,0.1)] transition-all duration-700 group-hover:scale-105">
             </div>
-            <div class="book-info">
-              <h3 class="book-title">{{ book.title }}</h3>
-              <p class="book-author">{{ book.author }}</p>
-              <p class="book-price">{{ formatPrice(book.price) }} ₽</p>
+            <div class="p-5">
+              <h3 class="font-['Playfair_Display'] text-lg text-[#5e1104] mb-1 leading-tight">{{ book.title }}</h3>
+              <p class="text-sm text-[#6c6456] mb-3">{{ book.author }}</p>
+              <p class="text-xl text-[#5e1104] font-medium">{{ formatPrice(book.price) }} ₽</p>
               
               <div class="flex gap-2 mt-4">
                 <button 
                   @click="addToCart(book)"
-                  class="btn flex-1 py-2"
+                  class="inline-flex items-center gap-2 px-5 py-2 bg-transparent text-[#5e1104] border border-[#7f8330] rounded-full text-sm font-medium transition-all hover:bg-[#7f8330]/8 hover:pr-8 hover:-translate-y-1"
                 >
                   В корзину
                 </button>
@@ -38,7 +38,7 @@
         <div v-else class="text-center py-16">
           <i class="far fa-heart text-6xl text-[#7f8330]/30 mb-4"></i>
           <p class="text-xl text-[#6c6456] mb-4">В избранном пока нет товаров</p>
-          <router-link to="/catalog" class="inline-block btn-primary px-8 py-3">
+          <router-link to="/catalog" class="inline-block bg-[#7f8330] text-white border border-[#7f8330] rounded-full px-8 py-3 font-medium transition-all hover:bg-[#5a5c29] hover:-translate-y-1">
             Перейти в каталог
           </router-link>
         </div>
@@ -68,7 +68,6 @@
   
   const addToCart = (book) => {
     console.log('Добавлено в корзину:', book)
-    // Здесь будет логика добавления в корзину
   }
   
   const removeFromFavorites = (id) => {
@@ -80,6 +79,7 @@
   }
   </script>
   
+  <!-- УДАЛИТЕ ЭТОТ БЛОК ПОЛНОСТЬЮ 
   <style scoped>
   .books-grid {
     display: grid;
@@ -120,3 +120,4 @@
     @apply text-xl text-[#5e1104] font-medium;
   }
   </style>
+  -->
