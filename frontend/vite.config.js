@@ -17,4 +17,19 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://ivybook.ru',
+        changeOrigin: true,
+        secure: false,
+      },
+      // Добавляем прокси для статических файлов
+      '/storage': {
+        target: 'http://ivybook.ru',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 })

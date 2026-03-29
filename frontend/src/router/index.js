@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,12 +22,14 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/auth/LoginView.vue')
+      component: () => import('@/views/auth/LoginView.vue'),
+      meta: { guest: true } // Только для гостей
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/auth/RegisterView.vue')
+      component: () => import('@/views/auth/RegisterView.vue'),
+      meta: { guest: true } // Только для гостей
     },
     {
       path: '/cart',
@@ -36,22 +39,26 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('@/views/CheckoutView.vue')
+      component: () => import('@/views/CheckoutView.vue'),
+      meta: { requiresAuth: true } // Требует авторизации
     },
     {
       path: '/account',
       name: 'account',
-      component: () => import('@/views/AccountView.vue')
+      component: () => import('@/views/AccountView.vue'),
+      meta: { requiresAuth: true } // Требует авторизации
     },
     {
       path: '/orders',
       name: 'orders',
-      component: () => import('@/views/OrdersView.vue')
+      component: () => import('@/views/OrdersView.vue'),
+      meta: { requiresAuth: true } // Требует авторизации
     },
     {
       path: '/favorites',
       name: 'favorites',
-      component: () => import('@/views/FavoritesView.vue')
+      component: () => import('@/views/FavoritesView.vue'),
+      meta: { requiresAuth: true } // Требует авторизации
     },
     {
       path: '/about',
@@ -112,7 +119,7 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('@/views/admin/AdminView.vue'),
-      meta: { requiresAuth: true, isAdmin: true }
+      meta: { requiresAuth: true, requiresAdmin: true } // Требует авторизацию и права админа
     }
   ],
   scrollBehavior(to, from, savedPosition) {
@@ -121,6 +128,40 @@ const router = createRouter({
     } else {
       return { top: 0, behavior: 'smooth' }
     }
+  }
+})
+
+// Навигационный хук для защиты маршрутов
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
+  
+  // Проверяем авторизацию при каждом переходе, если еще не проверяли
+  if (!authStore.isAuthenticated && !authStore.user) {
+    await authStore.checkAuth()
+  }
+  
+  // Проверка на авторизацию
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next({ 
+      path: '/login', 
+      query: { redirect: to.fullPath } // Сохраняем путь для перенаправления после входа
+    })
+  }
+  // Проверка на права администратора
+  else if (to.meta.requiresAdmin && authStore.user?.role !== 'admin') {
+    next('/') // Перенаправляем на главную, если не админ
+  }
+  // Проверка на гостевые маршруты (не пускаем авторизованных на страницы логина/регистрации)
+  else if (to.meta.guest && authStore.isAuthenticated) {
+    // Перенаправляем админов на админ-панель, обычных пользователей на главную
+    if (authStore.user?.role === 'admin') {
+      next('/admin')
+    } else {
+      next('/')
+    }
+  }
+  else {
+    next()
   }
 })
 
